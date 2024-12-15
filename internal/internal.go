@@ -1,8 +1,9 @@
 package internal
 
 func GetAPIKey() string {
-	apiKey := "921cac5df7ac4e9da8b153532241512"
+	// This function is intended to hide or
+	//avoid directly sharing the API keys utilized for this
+	// or any other API client project.
+	apiKey := ""
 	return apiKey
 }
-
-// 2c07c402e351dd14307571ed6913d383
