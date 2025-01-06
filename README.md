@@ -12,5 +12,7 @@ So far, the achievement list contains:
 
 
 Other resources needed for the development of this project:
+
 [Digital Ocean - Install MySQL Server on Debian](https://www.digitalocean.com/community/tutorials/how-to-install-the-latest-mysql-on-debian-10)
+
 [MySQL - Create Database documentation](https://dev.mysql.com/doc/refman/8.4/en/create-table.html)
