@@ -6,12 +6,14 @@ So far, the achievement list contains:
 
 - [x] Basic JSON API /apibasics/ - [Source](https://go.dev/doc/tutorial/web-service-gin)
 - [x] Tty client for online weather API - /main.go + /internal/ - [Source](https://www.twilio.com/en-us/blog/check-weather-with-go)
-- [ ] API using MySQL DB with table/ E/R Model structure - [Source](https://go.dev/doc/tutorial/database-access#set_up_database)
+- [ ] API using MySQL DB with table/ E/R Model structure 
 - [ ] API using MySQL DB with JSON-adapted structure - [Source](https://www.digitalocean.com/community/tutorials/working-with-json-in-mysql)
 - [ ] API using NoSQL DB (MongoDB/Redis?) 
 
+Others:
+- [x] Basic MySQL connection and querying using Go - /dbconnect - [Source](https://go.dev/doc/tutorial/database-access#set_up_database)
 
-Other resources needed for the development of this project:
+Resources needed for the development of this project:
 
 [Digital Ocean - Install MySQL Server on Debian](https://www.digitalocean.com/community/tutorials/how-to-install-the-latest-mysql-on-debian-10)
 

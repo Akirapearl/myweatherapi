@@ -1,5 +1,6 @@
 package main
 
+// source: https://go.dev/doc/tutorial/database-access#single_row
 import (
 	"database/sql"
 	"fmt"
