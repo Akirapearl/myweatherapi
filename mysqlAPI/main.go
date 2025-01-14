@@ -33,6 +33,7 @@ func main() {
 
 	r := http.NewServeMux()
 	r.HandleFunc("GET /albums", getAlbums(db)) //calls function passing the values for the db connection
+	r.HandleFunc("POST /albums/add", addAlbum(db))
 	log.Print("Starting server on port :8090...")
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
@@ -71,3 +72,36 @@ func getAlbums(db *sql.DB) http.HandlerFunc {
 		}
 	}
 }
+
+func addAlbum(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var alb Album
+		err := json.NewDecoder(r.Body).Decode(&alb)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		result, err := db.Exec("INSERT into Albums VALUES ((select max(ID)+1 from Albums a),?, ?, ?);", alb.Title, alb.Artist, alb.Price)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+		id, err := result.LastInsertId()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		alb.ID = int(id)
+		json.NewEncoder(w).Encode(alb)
+	}
+}
+
+/*
+curl http://localhost:8090/albums/add \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"Title": "The Modern Sound of Betty Carter","Artist": "Betty Carter","Price": 49.99}'
+
+*/

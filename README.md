@@ -6,7 +6,7 @@ So far, the achievement list contains:
 
 - [x] Basic JSON API /apibasics/ - [Source](https://go.dev/doc/tutorial/web-service-gin)
 - [x] Tty client for online weather API - /main.go + /internal/ - [Source](https://www.twilio.com/en-us/blog/check-weather-with-go)
-- [ ] API using MySQL DB with table/ E/R Model structure 
+- [x] API using MySQL DB with table/ E/R Model structure 
 - [ ] API using MySQL DB with JSON-adapted structure - [Source](https://www.digitalocean.com/community/tutorials/working-with-json-in-mysql)
 - [ ] API using NoSQL DB (MongoDB/Redis?) 
 
