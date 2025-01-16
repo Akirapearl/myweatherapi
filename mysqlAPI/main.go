@@ -105,3 +105,15 @@ curl http://localhost:8090/albums/add \
     --data '{"Title": "The Modern Sound of Betty Carter","Artist": "Betty Carter","Price": 49.99}'
 
 */
+
+func updateAlbum(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		/*
+					    _, err = db.Exec("UPDATE Albums SET Title = ? WHERE ID = ?", alb.Title, alb.ID)
+			    		if err != nil {
+			        		http.Error(w, err.Error(), http.StatusInternalServerError)
+			        		return
+			    		}
+		*/
+	}
+}
