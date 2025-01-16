@@ -34,6 +34,7 @@ func main() {
 	r := http.NewServeMux()
 	r.HandleFunc("GET /albums", getAlbums(db)) //calls function passing the values for the db connection
 	r.HandleFunc("POST /albums/add", addAlbum(db))
+	r.HandleFunc("PUT /albums/update", updateAlbum(db))
 	log.Print("Starting server on port :8090...")
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
@@ -76,6 +77,7 @@ func getAlbums(db *sql.DB) http.HandlerFunc {
 func addAlbum(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var alb Album
+		/*Standardize expected response as a JSON*/
 		err := json.NewDecoder(r.Body).Decode(&alb)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -108,12 +110,25 @@ curl http://localhost:8090/albums/add \
 
 func updateAlbum(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		/*
-					    _, err = db.Exec("UPDATE Albums SET Title = ? WHERE ID = ?", alb.Title, alb.ID)
-			    		if err != nil {
-			        		http.Error(w, err.Error(), http.StatusInternalServerError)
-			        		return
-			    		}
-		*/
+		var alb Album
+		err := json.NewDecoder(r.Body).Decode(&alb)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		_, err = db.Exec("UPDATE Albums SET Title = ? WHERE ID = ?", alb.Title, alb.ID)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
+
+/*
+curl http://localhost:8090/albums/update \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "PUT" \
+    --data '{"ID" : 9,"Title": "Test"}'
+
+*/
