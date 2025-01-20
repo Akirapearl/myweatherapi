@@ -35,6 +35,7 @@ func main() {
 	r.HandleFunc("GET /albums", getAlbums(db)) //calls function passing the values for the db connection
 	r.HandleFunc("POST /albums/add", addAlbum(db))
 	r.HandleFunc("PUT /albums/update", updateAlbum(db))
+	r.HandleFunc("POST /albums/delete", deleteAlbum(db))
 	log.Print("Starting server on port :8090...")
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
@@ -104,7 +105,7 @@ curl http://localhost:8090/albums/add \
     --include \
     --header "Content-Type: application/json" \
     --request "POST" \
-    --data '{"Title": "The Modern Sound of Betty Carter","Artist": "Betty Carter","Price": 49.99}'
+    --data '{"Title": "The last stand","Artist": "Sabaton","Price": 19.99}'
 
 */
 
@@ -121,6 +122,7 @@ func updateAlbum(db *sql.DB) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 	}
 }
 
@@ -130,5 +132,31 @@ curl http://localhost:8090/albums/update \
     --header "Content-Type: application/json" \
     --request "PUT" \
     --data '{"ID" : 9,"Title": "Test"}'
+
+*/
+
+func deleteAlbum(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var alb Album
+		err := json.NewDecoder(r.Body).Decode(&alb)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		_, err = db.Exec("DELETE FROM Albums WHERE ID = ?", alb.ID)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusNoContent)
+	}
+}
+
+/*
+curl http://localhost:8090/albums/delete \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"ID" : 8}'
 
 */
