@@ -35,7 +35,7 @@ func main() {
 	r.HandleFunc("GET /albums", getAlbums(db)) //calls function passing the values for the db connection
 	r.HandleFunc("POST /albums/add", addAlbum(db))
 	r.HandleFunc("PUT /albums/update", updateAlbum(db))
-	r.HandleFunc("POST /albums/delete", deleteAlbum(db))
+	r.HandleFunc("DELETE /albums/delete", deleteAlbum(db))
 	log.Print("Starting server on port :8090...")
 	log.Fatal(http.ListenAndServe(":8090", r))
 }
@@ -156,7 +156,7 @@ func deleteAlbum(db *sql.DB) http.HandlerFunc {
 curl http://localhost:8090/albums/delete \
     --include \
     --header "Content-Type: application/json" \
-    --request "POST" \
+    --request "DELETE" \
     --data '{"ID" : 8}'
 
 */
