@@ -3,19 +3,13 @@ package read
 import (
 	"database/sql"
 	"encoding/json"
+	"myweatherapi/mysqlAPI/model"
 	"net/http"
 )
 
-type Album struct {
-	ID     int
-	Title  string
-	Artist string
-	Price  float32
-}
-
 func GetAlbums(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var albums []Album
+		var albums []model.Album
 		rows, err := db.Query("SELECT * FROM Albums")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -24,7 +18,7 @@ func GetAlbums(db *sql.DB) http.HandlerFunc {
 		defer rows.Close()
 
 		for rows.Next() {
-			var alb Album
+			var alb model.Album
 			if err := rows.Scan(&alb.ID, &alb.Title, &alb.Artist, &alb.Price); err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
