@@ -3,19 +3,13 @@ package create
 import (
 	"database/sql"
 	"encoding/json"
+	"myweatherapi/mysqlAPI/model"
 	"net/http"
 )
 
-type Album struct {
-	ID     int
-	Title  string
-	Artist string
-	Price  float32
-}
-
 func AddAlbum(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var alb Album
+		var alb model.Album
 		/*Standardize expected response as a JSON*/
 		err := json.NewDecoder(r.Body).Decode(&alb)
 		if err != nil {
